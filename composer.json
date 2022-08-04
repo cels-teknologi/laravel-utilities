@@ -1,0 +1,29 @@
+{
+  "name": "cels-teknologi/laravel-utilities",
+  "description": "Laravel utilities and helpers",
+  "require": {
+    "php": "^8.0",
+    "guzzlehttp/guzzle": "^7.0.1",
+    "illuminate/support": "^9.0"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^3.4",
+    "mockery/mockery": "^1.4.4",
+    "orchestra/testbench": "^7.0",
+    "phpunit/phpunit": "^9.5.10"
+  },
+  "autoload": {
+    "psr-4": {
+      "Cels\\Utilities\\": "src/"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Stephen",
+      "email": "stephen@cels.co.id"
+    }
+  ]
+}
