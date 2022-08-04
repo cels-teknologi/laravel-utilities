@@ -1,6 +1,6 @@
 <?php
 
-namespace Cels\Utilities\Models\Traits;
+namespace Cels\Utilities\Database\Eloquent\Traits;
 
 use Illuminate\Support\Str;
 
