@@ -75,4 +75,27 @@ trait HasCompositeKey
             $this->primaryKey = [$this->primaryKey, ];
         }
     }
+
+    /**
+     * Add a generic 'order by' clause if the query doesn't already have one.
+     * 
+     * This is to prevent Laravel to use built-in default order by function,
+     * since this model has a composite key.
+     *
+     * @return void
+     * @see  \Illuminate\Database\Eloquent\Builder::enforceOrderBy()  For the overridden method.
+     * @see  \Illuminate\Database\Concerns\BuildsQueries::chunk()     An example of a method that requires enforceOrderBy() to work properly.
+     */
+    protected function enforceOrderBy()
+    {
+        if (empty($this->query->orders) && empty($this->query->unionOrders)) {
+            $keys = $this->getKeyNames();
+            foreach ($keys as $keyName) {
+                $this->orderBy(
+                    $this->qualifyColumn($keyName),
+                    'asc'
+                );
+            }
+        }
+    }
 }
