@@ -60,4 +60,19 @@ trait HasCompositeKey
 
         return $this->getAttribute($keyName);
     }
+
+    /**
+     * Initialize HasCompositeKey trait
+     * 
+     * @return void
+     */
+    protected function initializeHasCompositeKey()
+    {
+        $this->incrementing = false;
+        $this->keyType = 'string';
+
+        if (!\is_array($this->primaryKey)) {
+            $this->primaryKey = [$this->primaryKey, ];
+        }
+    }
 }

@@ -24,8 +24,6 @@ trait HasUuidPrimary
      */
     protected static function bootHasUuidPrimary()
     {
-        // parent::boot();
-
         static::creating(function ($model) {
             if ($model instanceof HasCompositeKey) {
                 $keys = $model->getKeyNames();
@@ -42,5 +40,16 @@ trait HasUuidPrimary
                 $model->{$key} = (string) $model->generateUuid($key);
             }
         });
+    }
+
+    /**
+     * Initialize HasUuidPrimary trait
+     * 
+     * @return void
+     */
+    protected function initializeHasUuidPrimary()
+    {
+        $this->incrementing = false;
+        $this->keyType = 'string';
     }
 }
