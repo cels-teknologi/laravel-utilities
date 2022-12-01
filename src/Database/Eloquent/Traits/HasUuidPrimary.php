@@ -2,6 +2,7 @@
 
 namespace Cels\Utilities\Database\Eloquent\Traits;
 
+use Cels\Utilities\Database\Eloquent\Contracts\WithCompositeKey;
 use Illuminate\Support\Str;
 
 trait HasUuidPrimary
@@ -25,7 +26,7 @@ trait HasUuidPrimary
     protected static function bootHasUuidPrimary()
     {
         static::creating(function ($model) {
-            if ($model instanceof HasCompositeKey) {
+            if ($model instanceof WithCompositeKey || \in_array(HasCompositeKey::class, \class_uses_recursive($model), true)) {
                 $keys = $model->getKeyNames();
                 foreach ($keys as $keyName) {
                     if (!empty($model->{$keyName})) {
