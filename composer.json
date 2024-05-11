@@ -17,6 +17,13 @@
       "Cels\\Utilities\\": "src/"
     }
   },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Cels\\Aegis\\AegisServiceProvider"
+      ]
+    }
+  },
   "license": "MIT",
   "authors": [
     {
