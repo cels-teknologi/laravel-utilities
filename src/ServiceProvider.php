@@ -13,7 +13,7 @@ class ServiceProvider extends BaseServiceProvider
      */
     public function boot()
     {
-        Blade::directive('constants', fn ($_) => (
+        Blade::directive('fontawesome', fn ($_) => (
             "<?php echo (string) app('".FontAwesome::class."') ?>"
         ));
     }
