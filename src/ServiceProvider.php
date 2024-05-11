@@ -2,6 +2,7 @@
 
 namespace Cels\Utilities;
 
+use Cels\Utilities\CSP\CSP;
 use Cels\Utilities\Services\FontAwesome;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Blade;
@@ -21,6 +22,12 @@ class ServiceProvider extends BaseServiceProvider
         Blade::directive('fontawesome', fn ($_) => (
             "<?php echo (string) app('".FontAwesome::class."') ?>"
         ));
+
+        if (CSP::$enabled && $nonce = CSP::$nonce) {
+            Blade::directive('cspnonce', fn ($_) => (
+                "nonce=\"{$nonce}\""
+            ));
+        }
     }
 
     /**
