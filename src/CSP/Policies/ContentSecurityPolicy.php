@@ -24,7 +24,7 @@ abstract class ContentSecurityPolicy implements \Stringable
         ), $v));
         $this->validateValues($v);
 
-        $this->directives[$directive->value] = $v;
+        $this->directives[] = [$directive, $v];
 
         return $this;
     }
@@ -44,16 +44,15 @@ abstract class ContentSecurityPolicy implements \Stringable
     public function __toString(): string
     {
         return \implode(';', \array_map(
-            fn ($k, $_) => $k . (
-                \count($_) <= 0
+            fn ($v) => $v[0]->value . (
+                \count($v[1]) <= 0
                     ? ''
-                    : ': ' . \implode(' ', $_)
+                    : ': ' . \implode(' ', \array_map(
+                        fn ($_) => $_ instanceof Value ? $_->value : $_,
+                        $v[1],
+                    ))
             ),
-            \array_keys($this->directives),
-            \array_map(
-                fn ($_) => ($_ instanceof Value ? $_->value : $_),
-                $this->directives,
-            ),
+            $this->directives,
         ));
     }
 }
