@@ -23,10 +23,10 @@ class ServiceProvider extends BaseServiceProvider
             "<?php echo (string) app('".FontAwesome::class."') ?>"
         ));
 
-        if (CSP::$enabled && $nonce = CSP::$nonce) {
-            Blade::directive('cspnonce', fn ($_) => (
-                "nonce=\"{$nonce}\""
-            ));
+        if (CSP::$enabled) {
+            $this->app->singleton(CSP::SINGLETON_KEY, CSP::generateNonce());
+            Blade::directive('cspNonce', fn ($_) => app(CSP::SINGLETON_KEY));
+            Blade::directive('cspNonceAttr', fn ($_) => 'nonce="' . app(CSP::SINGLETON_KEY) . '"');
         }
     }
 
