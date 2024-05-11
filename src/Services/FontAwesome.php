@@ -56,10 +56,9 @@ HTML, $src);
             return null;
         }
 
-        $src = $this->parseResponse(\json_decode(
-            $response->getBody()->getContents(),
-            associative: true,
-        )['version']);
+        $src = $this->parseResponse(
+            \json_decode($response->getBody()->getContents())->version,
+        );
         Cache::set(self::CACHE_KEY, $src);
 
         return $src;

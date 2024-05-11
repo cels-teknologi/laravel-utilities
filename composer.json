@@ -20,7 +20,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "Cels\\Aegis\\AegisServiceProvider"
+        "Cels\\Utilities\\ServiceProvider"
       ]
     }
   },
