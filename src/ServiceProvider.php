@@ -24,7 +24,7 @@ class ServiceProvider extends BaseServiceProvider
         ));
 
         if (CSP::$enabled) {
-            $this->app->singleton(CSP::SINGLETON_KEY, CSP::generateNonce());
+            $this->app->singleton(CSP::SINGLETON_KEY, fn () => CSP::generateNonce());
             Blade::directive('cspNonce', fn ($_) => app(CSP::SINGLETON_KEY));
             Blade::directive('cspNonceAttr', fn ($_) => 'nonce="' . app(CSP::SINGLETON_KEY) . '"');
         }

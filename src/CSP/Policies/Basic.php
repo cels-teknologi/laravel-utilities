@@ -18,7 +18,7 @@ class Basic extends ContentSecurityPolicy
         return $this
             ->useDirective(Directive::BaseUri, Value::None)
             ->useDirective(Directive::ObjectSrc, Value::None)
-            ->useDirective(Directive::ScriptSrc, [Value::StrictDynamic, $nonce])
-            ->useDirective(Directive::StyleSrc, [Value::StrictDynamic, $nonce]);
+            ->useDirective(Directive::ScriptSrc, [Value::StrictDynamic, $nonce, 'https:'])
+            ->useDirective(Directive::StyleSrc, [Value::StrictDynamic, $nonce, 'https:']);
     }
 }

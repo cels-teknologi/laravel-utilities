@@ -41,6 +41,13 @@ abstract class ContentSecurityPolicy implements \Stringable
         }
     }
 
+    public function quote(string $str)
+    {
+        return \mb_ereg('^[^:]+:$', $str) || \filter_var($str, FILTER_VALIDATE_URL)
+            ? $str
+            : "'{$str}'";
+    }
+
     public function __toString(): string
     {
         return \implode('; ', \array_map(
@@ -48,7 +55,7 @@ abstract class ContentSecurityPolicy implements \Stringable
                 \count($v[1]) <= 0
                     ? ''
                     : ' ' . \implode(' ', \array_map(
-                        fn ($_) => $_ instanceof Value ? "'{$_->value}'" : "'$_'",
+                        fn ($_) => $_ instanceof Value ? "'{$_->value}'" : $this->quote($_),
                         $v[1],
                     ))
             ),
