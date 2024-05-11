@@ -50,7 +50,10 @@ abstract class ContentSecurityPolicy implements \Stringable
                     : ': ' . \implode(' ', $_)
             ),
             \array_keys($this->directives),
-            $this->directives,
+            \array_map(
+                fn ($_) => ($_ instanceof Value ? $_->value : $_),
+                $this->directives,
+            ),
         ));
     }
 }
