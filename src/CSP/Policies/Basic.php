@@ -10,10 +10,11 @@ class Basic extends ContentSecurityPolicy
 {
     public function build()
     {
-        if (! CSP::$nonce) {
+        $nonce = app(CSP::SINGLETON_KEY);
+        if (! $nonce) {
             return;
         }
-        $nonce = 'nonce-' . CSP::$nonce;
+        $nonce = 'nonce-' . $nonce;
         return $this
             ->useDirective(Directive::BaseUri, Value::None)
             ->useDirective(Directive::ObjectSrc, Value::None)
