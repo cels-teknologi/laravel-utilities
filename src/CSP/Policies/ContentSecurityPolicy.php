@@ -18,9 +18,9 @@ abstract class ContentSecurityPolicy implements \Stringable
     ): self {
         $v = \is_array($values) ? $values : [$values];
         $v = Arr::flatten(\array_map(fn ($_) => (
-            \is_string($v)
-                ? \explode(' ', $v)
-                : $v
+            \is_string($_)
+                ? \explode(' ', $_)
+                : $_
         ), $v));
         $this->validateValues($v);
 
