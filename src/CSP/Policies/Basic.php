@@ -10,7 +10,7 @@ class Basic extends ContentSecurityPolicy
 {
     public function build()
     {
-        if (CSP::$nonce) {
+        if (! CSP::$nonce) {
             return;
         }
         $nonce = 'nonce-' . CSP::$nonce;

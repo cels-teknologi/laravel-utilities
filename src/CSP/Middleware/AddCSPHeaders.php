@@ -17,12 +17,15 @@ class AddCSPHeaders
      */
     public function handle(Request $request, Closure $next): Response
     {
+        CSP::generateNonce();
         $response = $next($request);
         if (CSP::$enabled) {
-            CSP::generateNonce();
-            $response->headers->add([
-                'Content-Security-Policy' => (string) app(CSP::$policy),
-            ]);
+            $result = (string) app(CSP::$policy)->build();
+            if ($result) {
+                $response->headers->add([
+                    'Content-Security-Policy' => $result,
+                ]);
+            }
         }
 
         return $response;
