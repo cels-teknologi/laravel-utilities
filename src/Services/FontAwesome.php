@@ -27,11 +27,14 @@ final class FontAwesome implements Htmlable, \Stringable
             return '';
         }
 
-        $k = CSP::getSharedNonce();
+        $nonce = null;
+        if (CSP::$enabled) {
+            $nonce = CSP::getSharedNonce();
+        }
         
         return sprintf(<<<HTML
 <script src="%s" crossorigin="anonymous" referrerpolicy="no-referrer" %s></script>
-HTML, $src, CSP::$enabled ? "nonce={{ \${$k} }}" : '');
+HTML, $src, CSP::$enabled && $nonce ? "nonce={$nonce}" : '');
     }
 
     /**

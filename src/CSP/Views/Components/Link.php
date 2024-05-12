@@ -22,7 +22,6 @@ class Link extends Component
      */
     public function render(): View|Closure|string
     {
-        $k = CSP::VIEW_SHARE_VARIABLE_KEY;
-        return "<link {{ \$attributes }} nonce=\"{{ \${$k} }}\">";
+        return sprintf('<link {{ $attributes }} nonce="%s">', CSP::getSharedNonce());
     }
 }

@@ -22,7 +22,6 @@ class Script extends Component
      */
     public function render(): View|Closure|string
     {
-        $k = CSP::VIEW_SHARE_VARIABLE_KEY;
-        return "<script {{ \$attributes }} nonce=\"{{ \${$k} }}\">{{ \$slot }}</script>";
+        return sprintf('<script {{ $attributes }} nonce="%s">{{ $slot }}</script>', CSP::getSharedNonce());
     }
 }
