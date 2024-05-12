@@ -24,6 +24,7 @@ class AddCSPHeaders
             Vite::useCspNonce($nonce);
             View::share(CSP::VIEW_SHARE_VARIABLE_KEY, $nonce);
             Blade::componentNamespace('Cels\\Utilities\\CSP\\Views\\Components', 'cels-csp');
+            Blade::directive('celsCspNonceAttr', fn () => sprintf('nonce="$%s"', CSP::VIEW_SHARE_VARIABLE_KEY));
         }
 
         $response = $next($request);
