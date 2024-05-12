@@ -22,10 +22,7 @@ class ServiceProvider extends BaseServiceProvider
         Blade::directive('fontawesome', fn ($_) => (
             "<?php echo (string) app('".FontAwesome::class."') ?>"
         ));
-
-        if (CSP::$enabled) {
-            $this->app->singleton(CSP::SINGLETON_KEY, fn () => new CSP);
-        }
+        Blade::componentNamespace('Cels\\Utilities\\CSP\\Views\\Components', 'cels-csp');
     }
 
     /**

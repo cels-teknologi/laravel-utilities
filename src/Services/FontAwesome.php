@@ -2,6 +2,7 @@
 
 namespace Cels\Utilities\Services;
 
+use Cels\Utilities\CSP\CSP;
 use GuzzleHttp\Client;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Facades\Cache;
@@ -26,9 +27,11 @@ final class FontAwesome implements Htmlable, \Stringable
             return '';
         }
 
+        $k = CSP::getSharedNonce();
+        
         return sprintf(<<<HTML
-<script src="%s" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-HTML, $src);
+<script src="%s" crossorigin="anonymous" referrerpolicy="no-referrer" %s></script>
+HTML, $src, CSP::$enabled ? "nonce={{ \${$k} }}" : '');
     }
 
     /**
