@@ -7,6 +7,7 @@ use Cels\Utilities\CSP\Policies\Basic;
 class CSP
 {
     public const SINGLETON_KEY = 'cels-utilities_csp-nonce';
+    public const VIEW_SHARE_VARIABLE_KEY = '_cels_utilities__cspNonce';
 
     public static bool $enabled = false;
 

@@ -6,6 +6,7 @@ use Cels\Utilities\CSP\CSP;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Vite;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -21,8 +22,8 @@ class AddCSPHeaders
         $nonce = app(CSP::class)->nonce();
         if (CSP::$enabled) {
             Vite::useCspNonce($nonce);
-            Blade::directive('cspNonce', fn () => $nonce);
-            Blade::directive('cspNonceAttr', fn () => sprintf('nonce="%s"', $nonce));
+            View::share(CSP::VIEW_SHARE_VARIABLE_KEY, $nonce);
+            Blade::componentNamespace('Cels\\Utilities\\CSP\\Views\\Components', 'cels-csp');
         }
 
         $response = $next($request);
