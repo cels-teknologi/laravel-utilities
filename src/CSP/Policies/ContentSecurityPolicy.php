@@ -10,7 +10,7 @@ abstract class ContentSecurityPolicy implements \Stringable
 {
     protected array $directives = [];
 
-    abstract public function build();
+    abstract public function build(string $nonce);
 
     protected function useDirective(
         Directive $directive,

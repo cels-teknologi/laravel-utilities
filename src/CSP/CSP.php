@@ -12,7 +12,7 @@ class CSP
 
     public static $policy = Basic::class;
 
-    public static function generateNonce()
+    public function nonce()
     {
         return \bin2hex(\random_bytes(32));
     }

@@ -3,9 +3,10 @@
 namespace Cels\Utilities\CSP\Middleware;
 
 use Cels\Utilities\CSP\CSP;
-use Cels\Utilities\Utility;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Vite;
 use Symfony\Component\HttpFoundation\Response;
 
 class AddCSPHeaders
@@ -17,9 +18,17 @@ class AddCSPHeaders
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $response = $next($request);
+        $nonce = app(CSP::class)->nonce();
         if (CSP::$enabled) {
-            $result = app(CSP::$policy)->build();
+            Vite::useCspNonce($nonce);
+            Blade::directive('cspNonce', fn () => $nonce);
+            Blade::directive('cspNonceAttr', fn () => sprintf('nonce="%s"', $nonce));
+        }
+
+        $response = $next($request);
+
+        if (CSP::$enabled) {
+            $result = app(CSP::$policy)->build($nonce);
             if ($result) {
                 $response->headers->add([
                     'Content-Security-Policy' => (string) $result,

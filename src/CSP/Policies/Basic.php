@@ -8,12 +8,8 @@ use Cels\Utilities\CSP\CSP;
 
 class Basic extends ContentSecurityPolicy
 {
-    public function build()
+    public function build(string $nonce)
     {
-        $nonce = app(CSP::SINGLETON_KEY);
-        if (! $nonce) {
-            return;
-        }
         $nonce = 'nonce-' . $nonce;
         return $this
             ->useDirective(Directive::BaseUri, Value::None)

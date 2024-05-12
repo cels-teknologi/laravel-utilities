@@ -24,9 +24,7 @@ class ServiceProvider extends BaseServiceProvider
         ));
 
         if (CSP::$enabled) {
-            $this->app->singleton(CSP::SINGLETON_KEY, fn () => CSP::generateNonce());
-            Blade::directive('cspNonce', fn ($_) => app(CSP::SINGLETON_KEY));
-            Blade::directive('cspNonceAttr', fn ($_) => 'nonce="' . app(CSP::SINGLETON_KEY) . '"');
+            $this->app->singleton(CSP::SINGLETON_KEY, fn () => new CSP);
         }
     }
 
@@ -36,5 +34,7 @@ class ServiceProvider extends BaseServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/cels-utilities.php', 'cels-utilities');
+
+        $this->app->singleton(CSP::$policy, fn () => new CSP::$policy);
     }
 }
