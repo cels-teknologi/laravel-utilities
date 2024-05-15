@@ -71,8 +71,8 @@ final class FontAwesome implements Htmlable, \Stringable
             '<%s %s>',
             \implode(' ', \array_map(
                 fn ($_) => (\is_int($_)
-                    ? $attrs[$_]
-                    : sprintf('%s="%s"', $_, $attrs[$_])
+                    ? $a[$_]
+                    : sprintf('%s="%s"', $_, $a[$_])
                 ),
                 \array_keys($a),
             )) . match ($el) {
