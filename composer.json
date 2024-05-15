@@ -9,12 +9,17 @@
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^3.4",
     "mockery/mockery": "^1.4.4",
-    "orchestra/testbench": "^7.0",
+    "orchestra/testbench": "^8.0|^9.0",
     "phpunit/phpunit": "^9.5.10"
   },
   "autoload": {
     "psr-4": {
       "Cels\\Utilities\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Cels\\Utilities\\Tests\\": "tests/"
     }
   },
   "extra": {
