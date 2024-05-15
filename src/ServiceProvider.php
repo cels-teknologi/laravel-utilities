@@ -19,8 +19,10 @@ class ServiceProvider extends BaseServiceProvider
             __DIR__ . '/../config/cels-utilities.php' => App::configPath('cels-utilities.php'),
         ], 'cels-utilities-config');
 
-        Blade::directive('fontawesome', fn ($_) => (
-            "<?php echo (string) app('".FontAwesome::class."') ?>"
+        Blade::directive('fontawesome', fn ($_) => sprintf(
+            "<?php echo (string) app('%s')(%s) ?>",
+            FontAwesome::class,
+            $_,
         ));
         Blade::componentNamespace('Cels\\Utilities\\CSP\\Views\\Components', 'cels-csp');
     }

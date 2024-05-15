@@ -12,9 +12,23 @@ final class FontAwesome implements Htmlable, \Stringable
 {
     protected final const CACHE_KEY = 'cels-utilities___libraries__endpoints_fontawesome';
 
-    public function __invoke()
+    public function __invoke(array $args = [])
     {
-        $src = Config::get('cels-utilities.libraries.endpoints.fontawesome');
+        if (\count($args) > 0) {
+            $host = Config::get('cels-utilities.libraries.endpoints.fontawesome_host_endpoint');
+            return \implode('', \array_map(
+                fn ($_) => $this->buildElement([
+                    'src' => "{$host}/js/{$_}.min.js",
+                    'data-auto-add-css' => 'false',
+                ]),
+                $args,
+            )) . $this->buildElement([
+                'rel' => 'stylesheet',
+                'href' => "{$host}/css/svg-with-js.min.css"
+            ], 'link');
+        }
+
+        $src = Config::get('cels-utilities.libraries.endpoints.fontawesome_kit');
         if (! $src) {
             $src = Cache::get(self::CACHE_KEY);
 
@@ -27,14 +41,7 @@ final class FontAwesome implements Htmlable, \Stringable
             return '';
         }
 
-        $nonce = null;
-        if (CSP::$enabled) {
-            $nonce = CSP::getSharedNonce();
-        }
-        
-        return sprintf(<<<HTML
-<script src="%s" crossorigin="anonymous" referrerpolicy="no-referrer" %s></script>
-HTML, $src, CSP::$enabled && $nonce ? "nonce={$nonce}" : '');
+        return $this->buildElement(['src' => $src]);
     }
 
     /**
@@ -50,6 +57,31 @@ HTML, $src, CSP::$enabled && $nonce ? "nonce={$nonce}" : '');
     public function __toString(): string
     {
         return $this->toHtml();
+    }
+
+    protected function buildElement(array $attrs = [], string $el = 'script'): string
+    {
+        $a = [
+            ...$attrs,
+            'crossorigin' => 'anonymous',
+            'referrerpolicy' => 'no-referrer',
+            ...(CSP::$enabled ? ['nonce' => CSP::getSharedNonce()] : []),
+        ];
+        return sprintf(
+            '<%s %s>',
+            \implode(' ', \array_map(
+                fn ($_) => (\is_int($_)
+                    ? $attrs[$_]
+                    : sprintf('%s="%s"', $_, $attrs[$_])
+                ),
+                \array_keys($a),
+            )) . match ($el) {
+                // For scripts, we're making it <...' crossorigin async defer></script'>
+                'script' => ' async defer></script',
+                // For links, we're making it <...' /'>
+                'link' => ' /',
+            },
+        );
     }
 
     protected function fetchAndCache(string $url): ?string

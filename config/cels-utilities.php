@@ -17,7 +17,8 @@ return [
         'cache' => 86400, // Cache for 1 day
         'timeout' => 10, // HTTP timeout
         'endpoints' => [
-            'fontawesome' => env('FONTAWESOME_KIT'),
+            'fontawesome_kit' => env('FONTAWESOME_KIT'),
+            'fontawesome_host_endpoint' => env('FONTAWESOME_HOST'),
         ],
     ],
 
