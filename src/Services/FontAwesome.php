@@ -38,16 +38,23 @@ final class FontAwesome
         }
 
         if (\count($args) > 0) {
-            return \implode('', \array_map(
-                fn ($_) => $this->buildElement([
-                    'src' => "{$host}/js/{$_}.min.js",
+            return \implode('', [
+                $this->buildElement([
+                    'src' => "{$host}/js/fontawesome.min.js",
                     ...(CSP::$enabled ? ['data-auto-add-css' => 'false'] : []),
                 ]),
-                $args,
-            )) . (CSP::$enabled ? $this->buildElement([
-                'rel' => 'stylesheet',
-                'href' => "{$host}/css/svg-with-js.min.css"
-            ], 'link') : $this->buildElement(['src' => "{$host}/js/fontawesome.min.js"]));
+                ...\array_map(
+                    fn ($_) => $this->buildElement([
+                        'src' => "{$host}/js/{$_}.min.js",
+                        ...(CSP::$enabled ? ['data-auto-add-css' => 'false'] : []),
+                    ]),
+                    $args,
+                ),
+                (CSP::$enabled ? $this->buildElement([
+                    'rel' => 'stylesheet',
+                    'href' => "{$host}/css/svg-with-js.min.css"
+                ], 'link') : ''),
+            ]);
         }
         return $this->buildElement(['src' => $kit ?: "{$host}/js/all.min.js"]);
     }
