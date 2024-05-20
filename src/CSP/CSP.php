@@ -2,6 +2,7 @@
 
 namespace Cels\Utilities\CSP;
 
+use Cels\Utilities\CSP\Middleware\AddCSPHeaders;
 use Cels\Utilities\CSP\Policies\Basic;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
@@ -18,6 +19,12 @@ class CSP
 
     public static $policy = Basic::class;
 
+    public static function enable()
+    {
+        self::$enabled = true;
+        app('router')->prependMiddlewareToGroup('web', AddCSPHeaders::class);
+    }
+
     public static function nonce(): string
     {
         $nonce = \bin2hex(\random_bytes(32));
@@ -33,6 +40,10 @@ class CSP
 
     public static function getSharedNonce(): string
     {
-        return View::getShared()[self::VIEW_SHARE_VARIABLE_KEY];
+        $shared = View::getShared();
+        if (! \array_key_exists(self::VIEW_SHARE_VARIABLE_KEY, $shared)) {
+            return '';
+        }
+        return $shared[self::VIEW_SHARE_VARIABLE_KEY];
     }
 }
