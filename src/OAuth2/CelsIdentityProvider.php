@@ -65,6 +65,14 @@ class CelsIdentityProvider extends AbstractProvider
     {
         return ' ';
     }
+
+    /**
+     * @return string|null
+     */
+    protected function getPkceMethod()
+    {
+        return self::PKCE_METHOD_S256;
+    }
     
     /**
      * Get the default scopes used by this provider.
