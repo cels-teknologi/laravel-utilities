@@ -9,7 +9,7 @@ class Utility
 {
     public static function enableCSP()
     {
-        CSP::$enabled = true;
+        CSP::enable();
     }
 
     public static function withCSPPolicy($cspPolicy)
