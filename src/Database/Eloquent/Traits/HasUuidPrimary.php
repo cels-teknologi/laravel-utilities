@@ -5,6 +5,7 @@ namespace Cels\Utilities\Database\Eloquent\Traits;
 use Cels\Utilities\Database\Eloquent\Contracts\WithCompositeKey;
 use Illuminate\Support\Str;
 
+/** @deprecated  use `Illuminate\Database\Eloquent\Concerns\HasUuids` instead */
 trait HasUuidPrimary
 {
     /**
