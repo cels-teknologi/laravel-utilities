@@ -9,7 +9,7 @@
   },
   "require-dev": {
     "mockery/mockery": "^1.4.4",
-    "orchestra/testbench": "^9.0",
+    "orchestra/testbench": "^9.0|^10.0",
     "phpunit/phpunit": "^11.5"
   },
   "autoload": {
